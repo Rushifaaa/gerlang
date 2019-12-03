@@ -1,0 +1,9 @@
+{
+  "name": "gerlang",
+  "version": "0.1.0",
+  "description": "German Programming Language",
+  "main": "src/main.ts",
+  "repository": "git@github.com:Rushifaaa/gerlang.git",
+  "author": "Rushifaaa <jakub.gencer@protonmail.com>",
+  "license": "GPL-3.0-or-later"
+}
