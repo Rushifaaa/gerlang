@@ -2,8 +2,30 @@
   "name": "gerlang",
   "version": "0.1.0",
   "description": "German Programming Language",
-  "main": "src/main.ts",
-  "repository": "git@github.com:Rushifaaa/gerlang.git",
+  "keywords": [
+    "programming language"
+  ],
+  "homepage": "https://github.com/Rushifaaa/gerlang#readme",
+  "bugs": {
+    "url": "https://github.com/Rushifaaa/gerlang/issues"
+  },
+  "license": "GPL-3.0-or-later",
   "author": "Rushifaaa <jakub.gencer@protonmail.com>",
-  "license": "GPL-3.0-or-later"
+  "contributors": [
+    "Rushifaaa <jakub.gencer@protonmail.com>",
+    "Michael Federczuk <federczuk.michael@protonmail.com>"
+  ],
+  "main": "src/main.ts",
+  "bin": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Rushifaaa/gerlang.git"
+  },
+  "scripts": {
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+  }
 }
