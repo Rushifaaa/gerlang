@@ -25,6 +25,8 @@
   "scripts": {
   },
   "dependencies": {
+    "@types/node": "^13.9.1",
+    "typescript": "^3.8.3"
   },
   "devDependencies": {
   }
