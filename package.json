@@ -24,6 +24,15 @@
     "url": "https://github.com/Rushifaaa/gerlang.git"
   },
   "scripts": {
+    "lint": "./node_modules/.bin/eslint $(find . -type f \\( \\( -wholename './src/*' -name '*.ts' \\) -or -wholename './bin/*' \\))",
+    "build": "./node_modules/.bin/tsc",
+    "clean": "rm -rf ./out ./types",
+    "rebuild": "npm run clean && npm run build",
+    "test": "npm run lint && npm run build",
+    "start": "npm run build && ./bin/gerlang",
+    "install": "npm run build",
+    "preuninstall": "npm run clean",
+    "prepublishOnly": "npm run test"
   },
   "dependencies": {
     "@types/node": "^13.9.1",
