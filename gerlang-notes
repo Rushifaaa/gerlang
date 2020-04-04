@@ -1,0 +1,152 @@
+// TYPES
+
+Funktion haupt() -> (Ausgangs Code: Ganze Zahl) {
+    drucke("Hallo Welt")
+    Ausgangs Code
+}
+
+
+
+"string"
+'char'
+
+";" will be optional.
+
+Byte = Byte
+Integer = Ganzzahl
+Short = Kurze Zahl
+Long = Lange Zahl
+Float = Schwebende Zahl
+Double = Doppelte Zahl
+Character = Zeichen
+Boolean = Boolesch
+String = Zeichenkette
+
+Interface = Schnittstelle
+
++
+-
+*
+/
+
+Array = Anordnung
+
+Array definition / Fixed Size Array definition / Tuple definition
+([Zeichenkette], [Boolesch*16], Boolesch)
+
+[Anordnung] += [Anordnung] 
+
+Erweiterung Zeichenkette ^ Schnittstelle {
+
+    Funktion zurZeichenkette() {
+
+    }
+
+}
+
+// extension definition with a type
+Erweiterung Anordnung<Zeichenkette> {
+
+    Funktion zurZeichenkette() {
+
+    }
+
+}
+
+var test: ((Zeichenkette, Boolesch) -> Void)?
+
+test = { zeichenkette, boolesch  =>
+
+}
+
+
+// IF statement
+falls (Boolesch == Boolesch) {
+
+} oder falls (Boolesch == Boolesch) {
+
+} sonst {
+
+}
+
+// While
+solange (Boolesch == Boolesch) {
+
+    break = unterbrechen
+    continue = weiter
+
+}
+
+// For
+für (i = 0; 0 < 0; i++) {
+
+    break = unterbrechen
+    continue = weiter
+
+}
+
+// Switch case
+wenn() {
+
+    Fall() {
+
+    }
+
+}
+
+// structs
+Struktur abc {
+    Foo: Zeichenkette
+}
+
+// Classes
+Klasse ABC {
+
+    Einleitungsroutine {
+
+    }
+
+    Konstruktor()
+
+}
+
+// Enums
+Aufzählung foo {
+    
+}
+
+// Namespaces
+Namensraum x {
+    Funktion y() {
+
+    }
+}
+x.y()
+
+Var = var
+Konst = const
+
+
+// import same as typescript
+
+// Exceptions
+fange {
+    werfe
+} Ausnahme(AusnahmenName: AUSNAHME_TYPE) {
+
+} schließlich {
+
+}
+
+// Throws
+Funktion abc() -> Ganzzahl => ((Ganzzahl, Ganzzahl))  {
+
+}
+
+String& // mutable
+String? // optional
+String&? // mutable & optional
+
+null = Nichts
+
+//internal standart lib
