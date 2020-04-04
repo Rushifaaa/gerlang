@@ -17,6 +17,7 @@
   ],
   "main": "src/main.ts",
   "bin": {
+    "gerlang": "bin/gerlang"
   },
   "repository": {
     "type": "git",
