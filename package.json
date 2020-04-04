@@ -15,7 +15,7 @@
     "Rushifaaa <jakub.gencer@protonmail.com>",
     "Michael Federczuk <federczuk.michael@protonmail.com>"
   ],
-  "main": "src/main.ts",
+  "main": "out/index.js",
   "bin": {
     "gerlang": "bin/gerlang"
   },
