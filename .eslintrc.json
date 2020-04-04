@@ -1,0 +1,61 @@
+{
+	"env": {
+		"browser": true,
+		"es6": true,
+		"node": true
+	},
+	"extends": [
+		"eslint:recommended",
+		"plugin:@typescript-eslint/eslint-recommended",
+		"plugin:@typescript-eslint/recommended"
+	],
+	"globals": {
+		"Atomics": "readonly",
+		"SharedArrayBuffer": "readonly"
+	},
+	"parser": "@typescript-eslint/parser",
+	"parserOptions": {
+		"ecmaVersion": 2018,
+		"sourceType": "module"
+	},
+	"plugins": [
+		"@typescript-eslint"
+	],
+	"rules": {
+		"@typescript-eslint/no-empty-function": "warn",
+		"@typescript-eslint/no-empty-interface": "warn",
+		"@typescript-eslint/no-inferrable-types": "warn",
+		"@typescript-eslint/no-namespace": "off",
+		"arrow-parens": "warn",
+		"camelcase": "warn",
+		"eqeqeq": "error",
+		"no-control-regex": "off",
+		"no-empty": "warn",
+		"no-extra-semi": "warn",
+		"no-inner-declarations": "off",
+		"no-invalid-this": "error",
+		"no-mixed-spaces-and-tabs": "off",
+		"no-regex-spaces": "off",
+		"no-var": "error",
+		"prefer-const": "warn",
+		"prefer-exponentiation-operator": "warn",
+		"quotes": [
+			"warn",
+			"double",
+			{
+				"avoidEscape": true,
+				"allowTemplateLiterals": true
+			}
+		],
+		"semi": "error",
+		"space-unary-ops": [
+			"warn",
+			{
+				"words": false,
+				"nonwords": false
+			}
+		],
+		"spaced-comment": "warn",
+		"yoda": "warn"
+	}
+}
