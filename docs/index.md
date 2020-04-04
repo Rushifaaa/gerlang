@@ -1,5 +1,7 @@
 # Gerlang v0.1.0 #
 
+[Next: The Basics →](./the-basics.md)
+
 **Gerlang** is an esoteric programming language inspired by **Swift**, **Kotlin**,
  **Python**, **JavaScript**, **TypeScript**, **Java**, **C** and **C++**.  
 The gimmick of this languages is that the keywords and standard library are all
