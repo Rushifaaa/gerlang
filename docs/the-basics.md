@@ -28,3 +28,21 @@ The amount of spaces between words does not make a difference, three spaces has
 
 Using case systems for words like snake case (`foo_bar`), pascal case (`FooBar`)
  or camel case (`fooBar`) is discouraged.
+
+## Comments ##
+
+**Gerlang** uses the standard comment types that many other programming language
+ use as well.
+
+Two slashes anywhere in the code are the start of a line comment.
+
+A slash and an asterisk start a block comment, which is terminated with an
+ asterisk and a slash.
+
+```gerlang
+// This is a line comment
+
+/*
+ * This is a block comment
+ */
+```
