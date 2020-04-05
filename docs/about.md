@@ -1,5 +1,6 @@
-# Gerlang v0.1.0 #
+# About #
 
+\[[Top: Contents](./index.md)\]  
 [Next: The Basics →](./the-basics.md)
 
 **Gerlang** is an esoteric programming language inspired by **Swift**, **Kotlin**,
