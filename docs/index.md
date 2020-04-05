@@ -2,7 +2,7 @@
 
 ## Table of Contents ##
 
-1. [About](./about.md) – Info about the language
+1. [About](./about.md) – Info about the language itself
 2. [The Basics](./the-basics.md) – The basics of the language
 3. [Basic Types](./basic-types.md) – TODO
 4. [Fields](./fields.md) – TODO
