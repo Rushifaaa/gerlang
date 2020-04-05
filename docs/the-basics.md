@@ -1,7 +1,7 @@
 # The Basics #
 
 \[[Top: Contents](./index.md)\]  
-[← Previous: About](./about.md)
+[← Previous: About](./about.md) | [Next: Basic Types →](./basic-types.md)
 
 ## Statements ##
 
