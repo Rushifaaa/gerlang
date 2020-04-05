@@ -1,6 +1,6 @@
 # The Basics #
 
-[← Previous: About](./index.md)
+[← Previous: About](./about.md)
 
 ## Statements ##
 
