@@ -5,10 +5,10 @@
 
 **Gerlang** is an esoteric programming language inspired by **Swift**, **Kotlin**,
  **Python**, **JavaScript**, **TypeScript**, **Java**, **C** and **C++**.  
-The gimmick of this languages is that the keywords and standard library are all
- written in the **German** human language.
+The gimmick of this languages is that the keywords and the standard library are
+ all written in the **German** human language.
 
-The name **Gerlang** is a portmanteau of the words **German** and
+The name _"**Gerlang**"_ is a portmanteau of the words **German** and
  **Programming Language**.
 
 The language uses "`ger`" as its file extensions.
