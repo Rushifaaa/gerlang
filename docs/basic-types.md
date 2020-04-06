@@ -61,6 +61,8 @@ When no suffix is used, the `Ganzzahl` is used by default.
 ### Decimal Numbers ###
 
 `Kurze` `Nummer` and `Lange` `Nummer` are both floating point decimal numbers.  
+`Nummer` is an alias for `Lange` `Nummer`.
+
 Decimal literals must have digits on both the left and right side of the decimal
  point.  
 Just like integer literals, underscores can be used in between digits for
@@ -82,7 +84,7 @@ Integer literals can produce `Kurze` `Nummer` or `Lange` `Nummer` values when
 
 |       Type       |  Suffix   |
 | :--------------- | :-------: |
-| `Nummer`         |   `kn`    |
+| `Kurze` `Nummer` |   `kn`    |
 | `Lange` `Nummer` | `n`, `ln` |
 
 ### `Zeichen` ###
