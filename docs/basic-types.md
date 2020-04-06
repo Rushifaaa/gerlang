@@ -8,17 +8,17 @@
 **Gerlang** provides basic primitive types that are found in almost every other
  programming language.
 
-|             Name             |           Description           | C Equivalent |  Size  | Default Value |
-| :--------------------------- | :------------------------------ | :----------- | :----- | :-----------: |
-| `Nichts`                     | nothing                         | `void`       | N/A    |   `Nichts`    |
-| `Boolesch`                   | boolean                         | `bool`       | 8 bit  |   `Falsch`    |
-| `Byte`                       | unsigned integer                | `uint8_t`    | 8 bit  |     `0b`      |
-| `Kurze` `Ganzzahl`           | signed integer                  | `int16_t`    | 16 bit |     `0k`      |
-| `Ganzzahl`                   | signed integer                  | `int32_t`    | 32 bit |     `0g`      |
-| `Lange` `Ganzzahl`           | signed integer                  | `int64_t`    | 64 bit |     `0l`      |
-| `Kurze` `Nummer`             | floating pointer decimal number | `float`      | 32 bit |    `0.0k`     |
-| `Lange` `Nummer` or `Nummer` | floating pointer decimal number | `double`     | 64 bit |     `0.0`     |
-| `Zeichen`                    | single character                | `uint32_t`   | 32 bit |    `'\0'`     |
+|            Name            |           Description           | C Equivalent |  Size  | Default Value |
+| :------------------------- | :------------------------------ | :----------- | :----- | :-----------: |
+| `Nichts`                   | nothing                         | `void`       | N/A    |   `Nichts`    |
+| `Boolesch`                 | boolean                         | `bool`       | 8 bit  |   `Falsch`    |
+| `Byte`                     | unsigned integer                | `uint8_t`    | 8 bit  |     `0b`      |
+| `Kurze Ganzzahl`           | signed integer                  | `int16_t`    | 16 bit |     `0k`      |
+| `Ganzzahl`                 | signed integer                  | `int32_t`    | 32 bit |     `0g`      |
+| `Lange Ganzzahl`           | signed integer                  | `int64_t`    | 64 bit |     `0l`      |
+| `Kurze Nummer`             | floating pointer decimal number | `float`      | 32 bit |    `0.0k`     |
+| `Lange Nummer` or `Nummer` | floating pointer decimal number | `double`     | 64 bit |     `0.0`     |
+| `Zeichen`                  | single character                | `uint32_t`   | 32 bit |    `'\0'`     |
 
 ### `Nichts` ###
 
@@ -32,7 +32,7 @@ The `Boolesch` type is a boolean value that can only have two values: `Wahr` and
 
 ### Integers ###
 
-`Byte`, `Kurze` `Ganzzahl`, `Ganzzahl` and `Lange` `Ganzzahl` are all integers.  
+`Byte`, `Kurze Ganzzahl`, `Ganzzahl` and `Lange Ganzzahl` are all integers.  
 Digits in integer literals can have underscores to help with readability.  
 By default, all integer literals use the decimal (denary) numeral system,
  certain prefixes can change it to either the binary, octal or hexadecimal
@@ -48,20 +48,20 @@ By default, all integer literals use the decimal (denary) numeral system,
 Integer literals can have certain suffixes to target a specific integer type.  
 When no suffix is used, the `Ganzzahl` is used by default.
 
-|        Type        |   Suffix   |
-| :----------------- | :--------: |
-| `Byte`             | `b` or `y` |
-| `Kurze` `Ganzzahl` |    `k`     |
-| `Ganzzahl`         |    `g`     |
-| `Lange` `Ganzzahl` |    `l`     |
+|       Type       |   Suffix   |
+| :--------------- | :--------: |
+| `Byte`           | `b` or `y` |
+| `Kurze Ganzzahl` |    `k`     |
+| `Ganzzahl`       |    `g`     |
+| `Lange Ganzzahl` |    `l`     |
 
 `Byte` has two suffixes since when using the hexadecimal system, the letter `B`
  is a digit, which is why `y` can be used as a suffix for `Byte` instead.
 
 ### Decimal Numbers ###
 
-`Kurze` `Nummer` and `Lange` `Nummer` are both floating point decimal numbers.  
-`Nummer` is an alias for `Lange` `Nummer`.
+`Kurze Nummer` and `Lange Nummer` are both floating point decimal numbers.  
+`Nummer` is an alias for `Lange Nummer`.
 
 Decimal literals must have digits on both the left and right side of the decimal
  point.  
@@ -72,20 +72,20 @@ Floating point literals do not support different numeral systems.
 
 Decimal literals can have suffixes to target the two different types just like
  the integer types.  
-`Lange` `Nummer` is the default type when no suffix is used.
+`Lange Nummer` is the default type when no suffix is used.
 
-|       Type       |      Suffix      |
-| :--------------- | :--------------: |
-| `Kurze` `Nummer` |   `k` or `kn`    |
-| `Lange` `Nummer` | `l`, `n` or `ln` |
+|      Type      |      Suffix      |
+| :------------- | :--------------: |
+| `Kurze Nummer` |   `k` or `kn`    |
+| `Lange Nummer` | `l`, `n` or `ln` |
 
-Integer literals can produce `Kurze` `Nummer` or `Lange` `Nummer` values when
- the following suffixes are used.
+Integer literals can produce `Kurze Nummer` or `Lange Nummer` values when the
+ following suffixes are used.
 
-|       Type       |  Suffix   |
-| :--------------- | :-------: |
-| `Kurze` `Nummer` |   `kn`    |
-| `Lange` `Nummer` | `n`, `ln` |
+|      Type      |  Suffix   |
+| :------------- | :-------: |
+| `Kurze Nummer` |   `kn`    |
+| `Lange Nummer` | `n`, `ln` |
 
 ### `Zeichen` ###
 
