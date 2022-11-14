@@ -1,12 +1,10 @@
-# Fields - Variables & Constants #
+# Fields — Variables & Constants #
 
-\[[Top: Contents](./index.md)\]  
-[← Previous: Basic Types](./basic-types.md) | [Next: Functions →](./functions.md)
+\[[Top: Contents](index.md)\]  
+[← Previous: Basic Types](basic-types.md) | [Next: Functions →](functions.md)
 
-Field declarations consist of the keyword `Var` or `Konst`, the name of the
- field and a type specifier.  
-The name must be a valid symbol and between the name and the type specified must
- be a colon character (`:`).
+Field declarations consist of the keyword `Var` or `Konst`, the name of the field and a type specifier.  
+The name must be a valid symbol and between the name and the type specified must be a colon character (`:`).
 
 ```gerlang
 Var X: Ganzzahl;
@@ -34,15 +32,13 @@ Declaration and initialization can also be combined.
 Var X: Ganzzahl = 64;
 ```
 
-Thanks to type inference, the type specifier may be omitted when declaration and
- initialization are combined.
+Thanks to type inference, the type specifier may be omitted when declaration and initialization are combined.
 
 ```gerlang
 Var X = 64; // type is inferred, `X` is of type `Ganzzahl`
 ```
 
-The only difference between variables and constants are that, after
- initialization, constants can not be re-assigned.  
+The only difference between variables and constants are that, after initialization, constants can not be re-assigned.  
 Constants are declared using the `Konst` keyword instead of the `Var` keyword.
 
 ```gerlang
