@@ -7,17 +7,18 @@
 
 **Gerlang** provides basic primitive types that are found in almost every other programming language.
 
-| Name                       | Description                     | C Equivalent | Size   | Default Value |
-| :------------------------- | :------------------------------ | :----------- | :----- | :-----------: |
-| `Nichts`                   | nothing                         | `void`       | N/A    |   `Nichts`    |
-| `Boolesch`                 | boolean                         | `bool`       | 8 bit  |   `Falsch`    |
-| `Byte`                     | unsigned integer                | `uint8_t`    | 8 bit  |     `0b`      |
-| `Kurze Ganzzahl`           | signed integer                  | `int16_t`    | 16 bit |     `0k`      |
-| `Ganzzahl`                 | signed integer                  | `int32_t`    | 32 bit |     `0g`      |
-| `Lange Ganzzahl`           | signed integer                  | `int64_t`    | 64 bit |     `0l`      |
-| `Kurze Nummer`             | floating pointer decimal number | `float`      | 32 bit |    `0.0k`     |
-| `Lange Nummer` or `Nummer` | floating pointer decimal number | `double`     | 64 bit |     `0.0`     |
-| `Zeichen`                  | single character                | `uint32_t`   | 32 bit |    `'\0'`     |
+| Name                       | Description                     | C Equivalent       | Size   | Default Value |
+| :------------------------- | :------------------------------ | :----------------- | :----- | :-----------: |
+| `Nichts`                   | nothing                         | `void`             | N/A    |   `Nichts`    |
+| `Boolesch`                 | boolean                         | `bool`             | 8 bit  |   `Falsch`    |
+| `Byte`                     | unsigned integer                | `uint8_t`          | 8 bit  |     `0b`      |
+| `Kurze Ganzzahl`           | signed integer                  | `int16_t`          | 16 bit |     `0k`      |
+| `Ganzzahl`                 | signed integer                  | `int32_t`          | 32 bit |     `0g`      |
+| `Lange Ganzzahl`           | signed integer                  | `int64_t`          | 64 bit |     `0l`      |
+| `Kurze Nummer`             | floating pointer decimal number | `float`            | 32 bit |    `0.0k`     |
+| `Lange Nummer` or `Nummer` | floating pointer decimal number | `double`           | 64 bit |     `0.0`     |
+| `Zeichen`                  | single character                | `uint32_t`         | 32 bit |    `'\0'`     |
+| `Niemals`                  | never / bottom type             | `_Noreturn` `void` | N/A    |      N/A      |
 
 ### `Nichts` ###
 
@@ -115,6 +116,14 @@ literals.
 
 In this table, ***`o`*** characters are placeholder for octal digits and ***`x`*** characters are placeholder for
 hexadecimal digits.
+
+## `Niemals` ##
+
+`Niemals` is the "bottom type".  
+This type is compatible with every other type (including itself), but no other type is compatible with it.
+(excluding itself)  
+Using it as a function return type signifies that that function will never return, either because it will always throw
+an exception or because it calls the `beenden()` function.
 
 ## Arrays ##
 
