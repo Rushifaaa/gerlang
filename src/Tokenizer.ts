@@ -18,8 +18,8 @@ function tryLexToken(str: string, end: boolean): Token | null {
 				const wsStr: string = wsMatch[0];
 
 				if(wsStr.length === str.length && !end) {
-					// if the entire string is matched and we're not at the end of the stream, then there might be more data coming
-					// that's part of the word
+					// if the entire string is matched and we're not at the end of the stream, then there might be more
+					// data coming that's part of the token
 					return null;
 				}
 
