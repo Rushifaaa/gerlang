@@ -3,6 +3,7 @@ import { inspect } from "util";
 export enum TokenType {
 	// TODO different token types
 
+	WHITESPACE,
 	WORD,
 
 	INVALID,

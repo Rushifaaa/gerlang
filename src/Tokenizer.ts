@@ -4,29 +4,51 @@ import { Token, TokenType } from "./Token";
 import { TokenStream } from "./TokenStream";
 import "./utils";
 
-const wordPattern = /[A-Za-zÄäÖöÜüẞß][A-Za-z0-9ÄäÖöÜüẞß]*/;
-
 function tryLexToken(str: string, end: false): Token | null;
 function tryLexToken(str: string, end: true): Token;
 function tryLexToken(str: string, end: boolean): Token | null;
 function tryLexToken(str: string, end: boolean): Token | null {
-	const wordMatch: RegExpMatchArray | null = str.match(wordPattern);
+	let invalidEndIndex = str.length;
 
-	if(!(wordMatch instanceof Array)) {
-		return new Token(TokenType.INVALID, str);
+	{ // whitespace
+		const wsMatch: RegExpMatchArray | null = str.match(/\s+/);
+
+		if(typeof wsMatch?.index === "number") {
+			if(wsMatch.index === 0) {
+				const wsStr: string = wsMatch[0];
+
+				if(wsStr.length === str.length && !end) {
+					// if the entire string is matched and we're not at the end of the stream, then there might be more data coming
+					// that's part of the word
+					return null;
+				}
+
+				return new Token(TokenType.WHITESPACE, wsStr);
+			}
+
+			invalidEndIndex = Math.min(wsMatch.index, invalidEndIndex);
+		}
 	}
 
-	if(wordMatch.index !== 0) {
-		return new Token(TokenType.INVALID, str.substring(0, wordMatch.index));
+	{ // word
+		const wordMatch: RegExpMatchArray | null = str.match(/[A-Za-zÄäÖöÜüẞß][A-Za-z0-9ÄäÖöÜüẞß]*/);
+
+		if(typeof wordMatch?.index === "number") {
+			if(wordMatch.index === 0) {
+				const wordStr: string = wordMatch[0];
+
+				if(wordStr.length === str.length && !end) {
+					return null;
+				}
+
+				return new Token(TokenType.WORD, wordStr);
+			}
+
+			invalidEndIndex = Math.min(wordMatch.index, invalidEndIndex);
+		}
 	}
 
-	if(wordMatch[0].length === str.length && !end) {
-		// if the entire string is matched and we're not at the end of the stream, then there might be more data coming
-		// that's part of the word
-		return null;
-	}
-
-	return new Token(TokenType.WORD, wordMatch[0]);
+	return new Token(TokenType.INVALID, str.substring(0, invalidEndIndex));
 }
 
 /**
