@@ -1,25 +1,38 @@
 import { inspect } from "util";
 
-class Token {
-	constructor(
-		readonly type: Token.Type,
-		readonly value: string
-	) { }
+export enum TokenType {
+	// TODO different token types
 
-	public get 0(): Token.Type {
-		return this.type;
+	INVALID,
+}
+
+export class Token {
+
+	readonly #type: TokenType;
+	readonly #value: string;
+
+	constructor(
+		type: TokenType,
+		value: string
+	) {
+		this.#type = type;
+		this.#value = value;
 	}
-	public get 1(): string {
-		return this.value;
+
+	get type(): TokenType {
+		return this.#type;
+	}
+	get value(): string {
+		return this.#value;
 	}
 
 	toString(): string {
-		return `[${Token.Type[this.type]}, ${inspect(this.value)}]`;
+		return `[${TokenType[this.#type]}, ${inspect(this.#value)}]`;
 	}
 
 	[inspect.custom](): object {
-		const tokenType = Token.Type[this.type];
-		const tokenValue = this.value;
+		const tokenType: string = TokenType[this.#type];
+		const tokenValue = this.#value;
 		return new class Token {
 			type = tokenType;
 			value = tokenValue;
@@ -27,34 +40,6 @@ class Token {
 	}
 
 	toJSON(): [string, string] {
-		return [Token.Type[this.type], this.value];
+		return [TokenType[this.#type], this.#value];
 	}
 }
-
-namespace Token {
-	export enum Type {
-		// TODO different token types
-
-		INVALID
-	}
-
-	export class Builder {
-		type = Type.INVALID;
-		value = "";
-
-		setType(type: Type): Builder {
-			this.type = type;
-			return this;
-		}
-		setValue(value: string): Builder {
-			this.value = value;
-			return this;
-		}
-
-		build(): Token {
-			return new Token(this.type, this.value);
-		}
-	}
-}
-
-export default Token;
