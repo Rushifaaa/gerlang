@@ -4,15 +4,29 @@ import { Token, TokenType } from "./Token";
 import { TokenStream } from "./TokenStream";
 import "./utils";
 
+const wordPattern = /[A-Za-zÄäÖöÜüẞß][A-Za-z0-9ÄäÖöÜüẞß]*/;
+
 function tryLexToken(str: string, end: false): Token | null;
 function tryLexToken(str: string, end: true): Token;
 function tryLexToken(str: string, end: boolean): Token | null;
 function tryLexToken(str: string, end: boolean): Token | null {
-	if(!end) {
+	const wordMatch: RegExpMatchArray | null = str.match(wordPattern);
+
+	if(!(wordMatch instanceof Array)) {
+		return new Token(TokenType.INVALID, str);
+	}
+
+	if(wordMatch.index !== 0) {
+		return new Token(TokenType.INVALID, str.substring(0, wordMatch.index));
+	}
+
+	if(wordMatch[0].length === str.length && !end) {
+		// if the entire string is matched and we're not at the end of the stream, then there might be more data coming
+		// that's part of the word
 		return null;
 	}
 
-	return new Token(TokenType.INVALID, str);
+	return new Token(TokenType.WORD, wordMatch[0]);
 }
 
 /**
