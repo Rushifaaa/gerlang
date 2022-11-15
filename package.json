@@ -15,32 +15,53 @@
     "Rushifaaa <jakub.gencer@protonmail.com>",
     "Michael Federczuk <federczuk.michael@protonmail.com>"
   ],
+  "files": [
+    "bin",
+    "LICENSE",
+    "out",
+    "types"
+  ],
   "main": "out/index.js",
-  "bin": {
-    "gerlang": "bin/gerlang"
+  "types": "types/index.d.ts",
+  "directories": {
+    "lib": "out",
+    "bin": "bin"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/Rushifaaa/gerlang.git"
   },
   "scripts": {
-    "lint": "./node_modules/.bin/eslint $(find . -type f \\( \\( -wholename './src/*' -name '*.ts' \\) -or -wholename './bin/*' \\))",
-    "build": "./node_modules/.bin/tsc",
-    "clean": "rm -rf ./out ./types",
+    "eslint": "npx --package=eslint -- eslint",
+    "tsc": "npx --package=typescript -- tsc",
+    "babel": "npx --package=@babel/cli -- babel",
+    "uglifyjs": "npx --package=uglifyjs -- uglifyjs",
+
+    "lint": "npm run eslint",
+    "build": "npm run tsc",
+    "build-watch": "npm run build -- --watch",
+    "clean": "rm -rf out types",
     "rebuild": "npm run clean && npm run build",
-    "test": "npm run lint && npm run build",
-    "start": "npm run build && ./bin/gerlang",
-    "install": "npm run build",
-    "preuninstall": "npm run clean",
-    "prepublishOnly": "npm run test"
-  },
-  "dependencies": {
-    "@types/node": "^13.9.1",
-    "typescript": "^3.8.3"
+
+    "test": "npm run clean && npm run lint && npm run build",
+    "start": "npm run build && bin/gerlang",
+
+    "prepare": "npm run clean && npm run lint && npm run build && find out -type f -name '*.js' -exec npm run babel -- -o '{}' -- '{}' \\; -exec npm run uglifyjs -- -o '{}' -- '{}' \\;"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^2.24.0",
-    "@typescript-eslint/parser": "^2.24.0",
-    "eslint": "^6.8.0"
+    "@babel/cli": "^7.19.3",
+    "@babel/core": "^7.20.2",
+    "@babel/plugin-transform-runtime": "^7.19.6",
+    "@babel/preset-env": "^7.20.2",
+    "@types/node": "^18.11.9",
+    "@typescript-eslint/eslint-plugin": "^5.43.0",
+    "@typescript-eslint/parser": "^5.43.0",
+    "eslint": "^8.27.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.8.4",
+    "uglify-js": "^3.17.4"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.20.1"
   }
 }
