@@ -1,17 +1,25 @@
 // TODO
 
+import { Token } from "./Token";
 import { Tokenizer } from "./Tokenizer";
+
+const separator = "-".repeat(80);
 
 const tokenizer = new Tokenizer(process.stdin);
 
-process.stderr.write(
-	"enter expression: ",
-	(error) => {
-		if(error !== undefined) {
-			throw error;
-		}
+async function readAndPrintTokens(printSeparator: boolean) {
+	const tokens: Token[] = await tokenizer.getRemainingTokens();
 
-		tokenizer.getRemainingTokens()
-			.then(console.log.bind(console, "tokens:"));
+	if(printSeparator) {
+		console.error(separator);
 	}
-);
+
+	console.log("tokens:", tokens);
+}
+
+if(!process.stdin.isTTY || !process.stderr.isTTY) {
+	readAndPrintTokens(false);
+} else {
+	console.error("Enter expression:\n" + separator);
+	readAndPrintTokens(true);
+}
