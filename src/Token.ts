@@ -5,6 +5,8 @@ export enum TokenType {
 
 	WHITESPACE,
 	WORD,
+	LITERAL_NUMBER,
+	LITERAL_INTEGER,
 
 	INVALID,
 }

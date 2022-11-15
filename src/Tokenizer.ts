@@ -48,6 +48,42 @@ function tryLexToken(str: string, end: boolean): Token | null {
 		}
 	}
 
+	{ // literal number
+		const literalNumberMatch: RegExpMatchArray | null = str.match(/[0-9]+(_[0-9]+)*\.[0-9]+(_[0-9]+)*[kl]?n?/);
+
+		if(typeof literalNumberMatch?.index === "number") {
+			if(literalNumberMatch.index === 0) {
+				const literalNumberStr: string = literalNumberMatch[0];
+
+				if(literalNumberStr.length === str.length && !end) {
+					return null;
+				}
+
+				return new Token(TokenType.LITERAL_NUMBER, literalNumberStr);
+			}
+
+			invalidEndIndex = Math.min(literalNumberMatch.index, invalidEndIndex);
+		}
+	}
+
+	{ // literal integer
+		const literalIntegerMatch: RegExpMatchArray | null = str.match(/0b[01]+(_[01]+)*([bykgl]|[kl]?n)?|0o[0-7]+(_[0-7])*([bykgl]|[kl]?n)?|(0d)?[0-9]+(_[0-9])*([bykgl]|[kl]?n)?|0x[0-9A-Fa-f]+(_[0-9A-Fa-f])*([ykgl]|[kl]?n)?/);
+
+		if(typeof literalIntegerMatch?.index === "number") {
+			if(literalIntegerMatch.index === 0) {
+				const literalIntegerStr: string = literalIntegerMatch[0];
+
+				if(literalIntegerStr.length === str.length && !end) {
+					return null;
+				}
+
+				return new Token(TokenType.LITERAL_NUMBER, literalIntegerStr);
+			}
+
+			invalidEndIndex = Math.min(literalIntegerMatch.index, invalidEndIndex);
+		}
+	}
+
 	return new Token(TokenType.INVALID, str.substring(0, invalidEndIndex));
 }
 
