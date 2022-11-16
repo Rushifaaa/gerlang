@@ -26,7 +26,7 @@ export class Token {
 
 	constructor(
 		type: TokenType,
-		value: string
+		value: string,
 	) {
 		this.#type = type;
 		this.#value = value;
