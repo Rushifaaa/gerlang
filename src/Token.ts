@@ -8,6 +8,7 @@ export enum TokenType {
 	LITERAL_NUMBER,
 	LITERAL_INTEGER,
 	OPERATOR,
+	SEPARATOR,
 
 	INVALID,
 }

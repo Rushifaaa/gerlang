@@ -170,6 +170,24 @@ function tryLexToken(str: string, end: boolean): Token | null {
 		}
 	}
 
+	{ // separator
+		const separatorMatch: RegExpMatchArray | null = str.match(/[(),.]/);
+
+		if(typeof separatorMatch?.index === "number") {
+			if(separatorMatch.index === 0) {
+				const separatorStr: string = separatorMatch[0];
+
+				if(separatorStr.length === str.length && !end) {
+					return null;
+				}
+
+				return new Token(TokenType.SEPARATOR, separatorStr);
+			}
+
+			invalidEndIndex = Math.min(separatorMatch.index, invalidEndIndex);
+		}
+	}
+
 	return new Token(TokenType.INVALID, str.substring(0, invalidEndIndex));
 }
 
