@@ -3,10 +3,15 @@ import { inspect } from "util";
 export enum TokenType {
 	// TODO different token types
 
+	COMMENT_LINE,
+	COMMENT_BLOCK,
+
 	WHITESPACE,
 	WORD,
+
 	LITERAL_NUMBER,
 	LITERAL_INTEGER,
+
 	OPERATOR,
 	SEPARATOR,
 
