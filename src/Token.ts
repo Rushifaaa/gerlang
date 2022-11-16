@@ -7,6 +7,7 @@ export enum TokenType {
 	WORD,
 	LITERAL_NUMBER,
 	LITERAL_INTEGER,
+	OPERATOR,
 
 	INVALID,
 }

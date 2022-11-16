@@ -1,8 +1,76 @@
+import assert from "assert";
 import { Readable } from "stream";
 import { EOF } from "./EOF";
 import { Token, TokenType } from "./Token";
 import { TokenStream } from "./TokenStream";
-import "./utils";
+import { escapeRegExp } from "./utils";
+
+const operatorSigns =
+	[
+		// arithmetic
+		"+", // addition
+		"-", // subtraction & negative
+		"*", // multiplication
+		"/", // division
+		"%", // modulo
+
+		// bitwise
+		"~",  // complement
+		"<<", // left shift
+		">>", // right shift
+		"&",  // and
+		"|",  // or
+		"^",  // xor
+
+		// relational
+		"==", // equality
+		"!=", // inequality
+		"<",  // less than
+		"<=", // less than or equal
+		">",  // greater than
+		">=", // greater than or equal
+
+		// logical
+		"!",  // not
+		"&&", // and
+		"||", // or
+
+		// assignment
+		"=",
+		"+=",  // addition
+		"-=",  // subtraction
+		"*=",  // multiplication
+		"/=",  // division
+		"%=",  // modulo
+		"<<=", // left shift
+		">>=", // right shift
+		"&=",  // and
+		"|=",  // or
+		"^=",  // xor
+	]
+		.sort((a: string, b: string) => {
+			return b.length - a.length;
+		});
+
+assert(
+	new Set(operatorSigns).size === operatorSigns.length,
+	"operatorSigns array contains duplicate items"
+);
+
+const operatorSignsRegExp =
+	new RegExp(
+		operatorSigns.reduce(
+			(finalPattern: string, operatorSign: string) => {
+				const operatorSignPattern: string = escapeRegExp(operatorSign);
+				if(finalPattern.isEmpty()) {
+					return "(" + operatorSignPattern + ")";
+				}
+
+				return finalPattern + "|(" + operatorSignPattern + ")";
+			},
+			""
+		)
+	);
 
 function tryLexToken(str: string, end: false): Token | null;
 function tryLexToken(str: string, end: true): Token;
@@ -81,6 +149,24 @@ function tryLexToken(str: string, end: boolean): Token | null {
 			}
 
 			invalidEndIndex = Math.min(literalIntegerMatch.index, invalidEndIndex);
+		}
+	}
+
+	{ // operator
+		const operatorMatch: RegExpMatchArray | null = str.match(operatorSignsRegExp);
+
+		if(typeof operatorMatch?.index === "number") {
+			if(operatorMatch.index === 0) {
+				const operatorStr: string = operatorMatch[0];
+
+				if(operatorStr.length === str.length && !end) {
+					return null;
+				}
+
+				return new Token(TokenType.OPERATOR, operatorStr);
+			}
+
+			invalidEndIndex = Math.min(operatorMatch.index, invalidEndIndex);
 		}
 	}
 
