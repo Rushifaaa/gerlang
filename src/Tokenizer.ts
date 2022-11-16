@@ -82,11 +82,12 @@ const tokenPatterns: readonly Readonly<TokenPattern>[] = [
 	{ type: TokenType.COMMENT_BLOCK, pattern: /\/\*.*(\*\/|$)/ },
 
 	{ type: TokenType.WHITESPACE, pattern: /\s+/ },
-	{ type: TokenType.WORD, pattern: /[A-Za-zÄäÖöÜüẞß][A-Za-z0-9ÄäÖöÜüẞß]*/ },
 
+	{ type: TokenType.LITERAL_BOOLEAN, pattern: /(Wahr|Falsch)/ },
 	{ type: TokenType.LITERAL_NUMBER, pattern: /[0-9]+(_[0-9]+)*\.[0-9]+(_[0-9]+)*[kl]?n?/ },
 	{ type: TokenType.LITERAL_INTEGER, pattern: /0b[01]+(_[01]+)*([bykgl]|[kl]?n)?|0o[0-7]+(_[0-7])*([bykgl]|[kl]?n)?|(0d)?[0-9]+(_[0-9])*([bykgl]|[kl]?n)?|0x[0-9A-Fa-f]+(_[0-9A-Fa-f])*([ykgl]|[kl]?n)?/ },
 
+	{ type: TokenType.WORD, pattern: /[A-Za-zÄäÖöÜüẞß][A-Za-z0-9ÄäÖöÜüẞß]*/ },
 	{ type: TokenType.OPERATOR, pattern: operatorSignsRegExp },
 	{ type: TokenType.SEPARATOR, pattern: /[(),.]/ },
 ];
