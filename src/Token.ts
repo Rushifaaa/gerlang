@@ -1,4 +1,5 @@
 import { inspect } from "util";
+import { SourceLocation, SourceLocationJson } from "./SourceLocation";
 
 export enum TokenType {
 	// TODO different token types
@@ -23,13 +24,16 @@ export class Token {
 
 	readonly #type: TokenType;
 	readonly #value: string;
+	readonly #sourceLocation: SourceLocation;
 
 	constructor(
 		type: TokenType,
 		value: string,
+		sourceLocation: SourceLocation,
 	) {
 		this.#type = type;
 		this.#value = value;
+		this.#sourceLocation = sourceLocation;
 	}
 
 	get type(): TokenType {
@@ -38,21 +42,30 @@ export class Token {
 	get value(): string {
 		return this.#value;
 	}
+	get sourceLocation(): SourceLocation {
+		return this.#sourceLocation;
+	}
 
 	toString(): string {
-		return `[${TokenType[this.#type]}, ${inspect(this.#value)}]`;
+		return `${this.#sourceLocation}: [${TokenType[this.#type]}, ${inspect(this.#value)}]`;
 	}
 
 	[inspect.custom](): object {
 		const tokenType: string = TokenType[this.#type];
 		const tokenValue = this.#value;
+		const sourceLocation = this.#sourceLocation;
 		return new class Token {
 			type = tokenType;
 			value = tokenValue;
+			sourceLocation = sourceLocation;
 		};
 	}
 
-	toJSON(): [string, string] {
-		return [TokenType[this.#type], this.#value];
+	toJSON(): { type: string, value: string, sourceLocation: SourceLocationJson } {
+		return {
+			type: TokenType[this.#type],
+			value: this.#value,
+			sourceLocation: this.#sourceLocation.toJSON(),
+		};
 	}
 }

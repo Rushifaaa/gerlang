@@ -1,5 +1,11 @@
 import { inspect } from "util";
 
+export type SourceLocationJson = {
+	name: string,
+	lineno: number,
+	column: number,
+};
+
 export class SourceLocation {
 
 	static readonly NAME_UNKNOWN = "<unknown>";
@@ -53,7 +59,7 @@ export class SourceLocation {
 		};
 	}
 
-	toJSON(): { name: string, lineno: number, column: number } {
+	toJSON(): SourceLocationJson {
 		return {
 			name: this.#name,
 			lineno: this.#lineno,

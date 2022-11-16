@@ -93,10 +93,10 @@ const tokenPatterns: readonly Readonly<TokenPattern>[] = [
 	{ type: TokenType.SEPARATOR, pattern: /[(),.]/ },
 ];
 
-function tryLexToken(str: string, end: false): Token | null;
-function tryLexToken(str: string, end: true): Token;
-function tryLexToken(str: string, end: boolean): Token | null;
-function tryLexToken(str: string, end: boolean): Token | null {
+function tryLexToken(str: string, currentSourceLocation: SourceLocation, end: false): Token | null;
+function tryLexToken(str: string, currentSourceLocation: SourceLocation, end: true): Token;
+function tryLexToken(str: string, currentSourceLocation: SourceLocation, end: boolean): Token | null;
+function tryLexToken(str: string, currentSourceLocation: SourceLocation, end: boolean): Token | null {
 	let invalidEndIndex = str.length;
 
 	for(const tokenPattern of tokenPatterns) {
@@ -112,14 +112,14 @@ function tryLexToken(str: string, end: boolean): Token | null {
 					return null;
 				}
 
-				return new Token(tokenPattern.type, operatorStr);
+				return new Token(tokenPattern.type, operatorStr, currentSourceLocation);
 			}
 
 			invalidEndIndex = Math.min(match.index, invalidEndIndex);
 		}
 	}
 
-	return new Token(TokenType.INVALID, str.substring(0, invalidEndIndex));
+	return new Token(TokenType.INVALID, str.substring(0, invalidEndIndex), currentSourceLocation);
 }
 
 /**
@@ -151,7 +151,7 @@ export class Tokenizer extends TokenStream {
 
 	getNextToken(): Promise<Token | EOF> {
 		if(this.#backlogStr.isNotEmpty()) {
-			const token: Token | null = tryLexToken(this.#backlogStr, this.#eof);
+			const token: Token | null = tryLexToken(this.#backlogStr, this.#currentSourceLocation, this.#eof);
 
 			if(token instanceof Token) {
 				// store any data not consumed back into the backlog
@@ -183,7 +183,7 @@ export class Tokenizer extends TokenStream {
 					return;
 				}
 
-				const token: Token = tryLexToken(this.#backlogStr, true);
+				const token: Token = tryLexToken(this.#backlogStr, this.#currentSourceLocation, true);
 
 				// store any data not consumed back into the backlog
 				this.#backlogStr = this.#backlogStr.substring(token.value.length);
@@ -196,7 +196,7 @@ export class Tokenizer extends TokenStream {
 				const chunkStr = chunk.toString();
 				const str = this.#backlogStr + chunkStr;
 
-				const token: Token | null = tryLexToken(str, false);
+				const token: Token | null = tryLexToken(str, this.#currentSourceLocation, false);
 
 				if(!(token instanceof Token)) {
 					// entire string could not be consumed, store it into the backlog
