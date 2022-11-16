@@ -72,119 +72,43 @@ const operatorSignsRegExp =
 		)
 	);
 
+interface TokenPattern {
+	type: TokenType;
+	pattern: RegExp;
+}
+
+const tokenPatterns: readonly Readonly<TokenPattern>[] = [
+	{ type: TokenType.WHITESPACE, pattern: /\s+/ },
+	{ type: TokenType.WORD, pattern: /[A-Za-zÄäÖöÜüẞß][A-Za-z0-9ÄäÖöÜüẞß]*/ },
+	{ type: TokenType.LITERAL_NUMBER, pattern: /[0-9]+(_[0-9]+)*\.[0-9]+(_[0-9]+)*[kl]?n?/ },
+	{ type: TokenType.LITERAL_INTEGER, pattern: /0b[01]+(_[01]+)*([bykgl]|[kl]?n)?|0o[0-7]+(_[0-7])*([bykgl]|[kl]?n)?|(0d)?[0-9]+(_[0-9])*([bykgl]|[kl]?n)?|0x[0-9A-Fa-f]+(_[0-9A-Fa-f])*([ykgl]|[kl]?n)?/ },
+	{ type: TokenType.OPERATOR, pattern: operatorSignsRegExp },
+	{ type: TokenType.SEPARATOR, pattern: /[(),.]/ },
+];
+
 function tryLexToken(str: string, end: false): Token | null;
 function tryLexToken(str: string, end: true): Token;
 function tryLexToken(str: string, end: boolean): Token | null;
 function tryLexToken(str: string, end: boolean): Token | null {
 	let invalidEndIndex = str.length;
 
-	{ // whitespace
-		const wsMatch: RegExpMatchArray | null = str.match(/\s+/);
+	for(const tokenPattern of tokenPatterns) {
+		const match: RegExpMatchArray | null = str.match(tokenPattern.pattern);
 
-		if(typeof wsMatch?.index === "number") {
-			if(wsMatch.index === 0) {
-				const wsStr: string = wsMatch[0];
+		if(typeof match?.index === "number") {
+			if(match.index === 0) {
+				const operatorStr: string = match[0];
 
-				if(wsStr.length === str.length && !end) {
+				if(operatorStr.length === str.length && !end) {
 					// if the entire string is matched and we're not at the end of the stream, then there might be more
 					// data coming that's part of the token
 					return null;
 				}
 
-				return new Token(TokenType.WHITESPACE, wsStr);
+				return new Token(tokenPattern.type, operatorStr);
 			}
 
-			invalidEndIndex = Math.min(wsMatch.index, invalidEndIndex);
-		}
-	}
-
-	{ // word
-		const wordMatch: RegExpMatchArray | null = str.match(/[A-Za-zÄäÖöÜüẞß][A-Za-z0-9ÄäÖöÜüẞß]*/);
-
-		if(typeof wordMatch?.index === "number") {
-			if(wordMatch.index === 0) {
-				const wordStr: string = wordMatch[0];
-
-				if(wordStr.length === str.length && !end) {
-					return null;
-				}
-
-				return new Token(TokenType.WORD, wordStr);
-			}
-
-			invalidEndIndex = Math.min(wordMatch.index, invalidEndIndex);
-		}
-	}
-
-	{ // literal number
-		const literalNumberMatch: RegExpMatchArray | null = str.match(/[0-9]+(_[0-9]+)*\.[0-9]+(_[0-9]+)*[kl]?n?/);
-
-		if(typeof literalNumberMatch?.index === "number") {
-			if(literalNumberMatch.index === 0) {
-				const literalNumberStr: string = literalNumberMatch[0];
-
-				if(literalNumberStr.length === str.length && !end) {
-					return null;
-				}
-
-				return new Token(TokenType.LITERAL_NUMBER, literalNumberStr);
-			}
-
-			invalidEndIndex = Math.min(literalNumberMatch.index, invalidEndIndex);
-		}
-	}
-
-	{ // literal integer
-		const literalIntegerMatch: RegExpMatchArray | null = str.match(/0b[01]+(_[01]+)*([bykgl]|[kl]?n)?|0o[0-7]+(_[0-7])*([bykgl]|[kl]?n)?|(0d)?[0-9]+(_[0-9])*([bykgl]|[kl]?n)?|0x[0-9A-Fa-f]+(_[0-9A-Fa-f])*([ykgl]|[kl]?n)?/);
-
-		if(typeof literalIntegerMatch?.index === "number") {
-			if(literalIntegerMatch.index === 0) {
-				const literalIntegerStr: string = literalIntegerMatch[0];
-
-				if(literalIntegerStr.length === str.length && !end) {
-					return null;
-				}
-
-				return new Token(TokenType.LITERAL_NUMBER, literalIntegerStr);
-			}
-
-			invalidEndIndex = Math.min(literalIntegerMatch.index, invalidEndIndex);
-		}
-	}
-
-	{ // operator
-		const operatorMatch: RegExpMatchArray | null = str.match(operatorSignsRegExp);
-
-		if(typeof operatorMatch?.index === "number") {
-			if(operatorMatch.index === 0) {
-				const operatorStr: string = operatorMatch[0];
-
-				if(operatorStr.length === str.length && !end) {
-					return null;
-				}
-
-				return new Token(TokenType.OPERATOR, operatorStr);
-			}
-
-			invalidEndIndex = Math.min(operatorMatch.index, invalidEndIndex);
-		}
-	}
-
-	{ // separator
-		const separatorMatch: RegExpMatchArray | null = str.match(/[(),.]/);
-
-		if(typeof separatorMatch?.index === "number") {
-			if(separatorMatch.index === 0) {
-				const separatorStr: string = separatorMatch[0];
-
-				if(separatorStr.length === str.length && !end) {
-					return null;
-				}
-
-				return new Token(TokenType.SEPARATOR, separatorStr);
-			}
-
-			invalidEndIndex = Math.min(separatorMatch.index, invalidEndIndex);
+			invalidEndIndex = Math.min(match.index, invalidEndIndex);
 		}
 	}
 
