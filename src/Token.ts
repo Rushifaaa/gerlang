@@ -4,6 +4,8 @@ import { SourceLocation, SourceLocationJson } from "./SourceLocation";
 export enum TokenType {
 	// TODO different token types
 
+	SHEBANG,
+
 	COMMENT_LINE,
 	COMMENT_BLOCK,
 

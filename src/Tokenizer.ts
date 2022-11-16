@@ -79,6 +79,8 @@ interface TokenPattern {
 }
 
 const tokenPatterns: readonly Readonly<TokenPattern>[] = [
+	{ type: TokenType.SHEBANG, pattern: /#!.*(\r?\n|$)/ },
+
 	{ type: TokenType.COMMENT_LINE, pattern: /\/\/.*(\r?\n|$)/ },
 	{ type: TokenType.COMMENT_BLOCK, pattern: /\/\*.*(\*\/|$)/ },
 
@@ -100,6 +102,12 @@ function tryLexToken(str: string, currentSourceLocation: SourceLocation, end: bo
 	let invalidEndIndex = str.length;
 
 	for(const tokenPattern of tokenPatterns) {
+		if(tokenPattern.type === TokenType.SHEBANG &&
+			(currentSourceLocation.lineno > 1 || currentSourceLocation.column > 1)) {
+
+			continue;
+		}
+
 		const match: RegExpMatchArray | null = str.match(tokenPattern.pattern);
 
 		if(typeof match?.index === "number") {
