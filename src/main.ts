@@ -5,7 +5,7 @@ import { Tokenizer } from "./Tokenizer";
 
 const separator = "-".repeat(80);
 
-const tokenizer = new Tokenizer(process.stdin);
+const tokenizer = Tokenizer.newOfStdin();
 
 async function readAndPrintTokens(printSeparator: boolean) {
 	const tokens: Token[] = await tokenizer.getRemainingTokens();

@@ -1,6 +1,7 @@
 import assert from "assert";
 import { Readable } from "stream";
 import { EOF } from "./EOF";
+import { SourceLocation } from "./SourceLocation";
 import { Token, TokenType } from "./Token";
 import { TokenStream } from "./TokenStream";
 import { escapeRegExp } from "./utils";
@@ -128,17 +129,24 @@ export class Tokenizer extends TokenStream {
 
 	readonly #inputStream: Readable;
 
+	#currentSourceLocation: SourceLocation;
+
 	#backlogStr: string;
 	#eof: boolean;
 
-
-	constructor(inputStream: Readable) {
+	constructor(sourceInputStream: Readable, sourceName: string) {
 		super();
 
-		this.#inputStream = inputStream;
+		this.#inputStream = sourceInputStream;
+
+		this.#currentSourceLocation = new SourceLocation(sourceName);
 
 		this.#backlogStr = "";
 		this.#eof = false;
+	}
+
+	static newOfStdin(): Tokenizer {
+		return new Tokenizer(process.stdin, SourceLocation.NAME_STDIN);
 	}
 
 	getNextToken(): Promise<Token | EOF> {
@@ -149,6 +157,7 @@ export class Tokenizer extends TokenStream {
 				// store any data not consumed back into the backlog
 				this.#backlogStr = this.#backlogStr.substring(token.value.length);
 
+				this.#advanceCurrentSourceLocation(token.value);
 				return Promise.resolve(token);
 			}
 		} else if(this.#eof) {
@@ -179,6 +188,7 @@ export class Tokenizer extends TokenStream {
 				// store any data not consumed back into the backlog
 				this.#backlogStr = this.#backlogStr.substring(token.value.length);
 
+				this.#advanceCurrentSourceLocation(token.value);
 				resolve(token);
 			};
 
@@ -195,6 +205,7 @@ export class Tokenizer extends TokenStream {
 				}
 
 				finish();
+				this.#advanceCurrentSourceLocation(token.value);
 				resolve(token);
 
 				// store any data not consumed into the backlog
@@ -211,5 +222,29 @@ export class Tokenizer extends TokenStream {
 			this.#inputStream.once("end", endListener);
 			this.#inputStream.on("data", dataListener);
 		});
+	}
+
+	#advanceCurrentSourceLocation(str: string) {
+		const lastNewlineIndex = str.lastIndexOf("\n");
+
+		if(lastNewlineIndex >= 0) {
+			const newlineCount = str.substring(0, lastNewlineIndex).count("\n") + 1;
+
+			this.#currentSourceLocation =
+				new SourceLocation(
+					this.#currentSourceLocation.name,
+					this.#currentSourceLocation.lineno + newlineCount,
+					str.substring(lastNewlineIndex).length,
+				);
+
+			return;
+		}
+
+		this.#currentSourceLocation =
+			new SourceLocation(
+				this.#currentSourceLocation.name,
+				this.#currentSourceLocation.lineno,
+				this.#currentSourceLocation.column + str.length,
+			);
 	}
 }
