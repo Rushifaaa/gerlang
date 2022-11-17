@@ -1,3 +1,4 @@
+export { ExpressionParser } from "./ExpressionParser";
 export { SourceLocation, SourceLocationJson } from "./SourceLocation";
 export { EofItem, NextItem, StreamItem } from "./StreamItem";
 export { Token, TokenType } from "./Token";
