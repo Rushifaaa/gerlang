@@ -1,22 +1,22 @@
-import { EOF } from "./EOF";
+import { StreamItem } from "./StreamItem";
 import { Token } from "./Token";
 
 export abstract class TokenStream {
 
-	abstract getNextToken(): Promise<Token | EOF>;
+	abstract getNextToken(): Promise<StreamItem<Token>>;
 
 	async getRemainingTokens(): Promise<Token[]> {
 		const tokens: Token[] = [];
 
 		// eslint-disable-next-line no-constant-condition
 		while(true) {
-			const token: Token | EOF = await this.getNextToken();
+			const tokenItem: StreamItem<Token> = await this.getNextToken();
 
-			if(token === EOF) {
+			if(tokenItem.eof) {
 				break;
 			}
 
-			tokens.push(token);
+			tokens.push(tokenItem.value);
 		}
 
 		return tokens;

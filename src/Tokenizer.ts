@@ -1,7 +1,7 @@
 import assert from "assert";
 import { Readable } from "stream";
-import { EOF } from "./EOF";
 import { SourceLocation } from "./SourceLocation";
+import { StreamItem } from "./StreamItem";
 import { Token, TokenType } from "./Token";
 import { TokenStream } from "./TokenStream";
 import { escapeRegExp } from "./utils";
@@ -157,7 +157,7 @@ export class Tokenizer extends TokenStream {
 		return new Tokenizer(process.stdin, SourceLocation.NAME_STDIN);
 	}
 
-	getNextToken(): Promise<Token | EOF> {
+	getNextToken(): Promise<StreamItem<Token>> {
 		if(this.#backlogStr.isNotEmpty()) {
 			const token: Token | null = tryLexToken(this.#backlogStr, this.#currentSourceLocation, this.#eof);
 
@@ -166,10 +166,10 @@ export class Tokenizer extends TokenStream {
 				this.#backlogStr = this.#backlogStr.substring(token.value.length);
 
 				this.#advanceCurrentSourceLocation(token.value);
-				return Promise.resolve(token);
+				return Promise.resolve(StreamItem.next(token));
 			}
 		} else if(this.#eof) {
-			return Promise.resolve(EOF);
+			return Promise.resolve(StreamItem.eof());
 		}
 
 		return new Promise((resolve, reject) => {
@@ -187,7 +187,7 @@ export class Tokenizer extends TokenStream {
 				finish();
 
 				if(this.#backlogStr.isEmpty()) {
-					resolve(EOF);
+					resolve(StreamItem.eof());
 					return;
 				}
 
@@ -197,7 +197,7 @@ export class Tokenizer extends TokenStream {
 				this.#backlogStr = this.#backlogStr.substring(token.value.length);
 
 				this.#advanceCurrentSourceLocation(token.value);
-				resolve(token);
+				resolve(StreamItem.next(token));
 			};
 
 			const dataListener = (chunk: string | Buffer) => {
@@ -214,7 +214,7 @@ export class Tokenizer extends TokenStream {
 
 				finish();
 				this.#advanceCurrentSourceLocation(token.value);
-				resolve(token);
+				resolve(StreamItem.next(token));
 
 				// store any data not consumed into the backlog
 				this.#backlogStr = str.substring(token.value.length);
